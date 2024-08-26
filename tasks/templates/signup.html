@@ -1,0 +1,101 @@
+{% extends 'layouts/MainLayout.html' %}
+
+{% load static %}
+
+
+{% block title %}Signup{% endblock %}
+
+{% block styles %}
+<style>
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  #loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+
+  .error {
+    color: red;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<p class="error">{{myCustomError}}</p>
+
+<div id="loader" style="display:none;">
+  <div class="spinner"></div>
+</div>
+
+
+<!-- el action es a donde quiero que mande los datos el formulario, si no pongo nada los manda a la ruta donde esta servido  -->
+<form id="registerForm" action="/signup/" method="POST">
+  {% csrf_token %}
+
+  <!-- hagamos nuesetro form para estilizarlo desde aca -->
+
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input type="text" name="username" placeholder="Username" class="form-control" id="username">
+  </div>
+
+  <div class="mb-3">
+    <label for="password1" class="form-label">Password: </label>
+    <input type="password" name="password1" placeholder="Write your password" class="form-control" id="password1">
+  </div>
+
+  <div class="mb-3">
+    <label for="password2" class="form-label">Confirm password</label>
+    <input type="password" name="password2" placeholder="Repeat your password" class="form-control" id="password2">
+  </div>
+
+
+  <!-- {{ form.as_p }} -->
+  <input type="submit" value="Signup">
+</form>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }} <!-- Incluye los scripts de la plantilla base -->
+
+<script src="{% static 'scripts/signup-script.js' %}"></script>
+
+<script>
+
+  console.log('script desde signup.html');
+
+  const form = document.getElementById('registerForm')
+  const loader = document.getElementById('loader')
+
+
+  form.addEventListener('submit', function (event) {
+    form.style.display = 'none';
+    // Mostrar el loader
+    loader.style.display = 'block';
+
+  });
+</script>
+{% endblock %}

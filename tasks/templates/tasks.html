@@ -1,0 +1,35 @@
+{% extends 'layouts/MainLayout.html' %}
+
+{% block title %}{{ block.super }} - Tasks{% endblock %}
+{# block title %}{{ block.super }}Tasks{% endblock #}
+
+{% block content %}
+<h1>Tasks</h1>
+
+<ul>
+  {% for task in tasks %}
+
+  <h1>Task pending</h1>
+
+  <a href="{% url 'task_detail' task.id %}">
+    <li>
+
+      {% if task.important %}
+      <strong>{{task.title}}</strong>
+      {% else %}
+      <p>{{task.title}}</p>
+
+
+      {% endif %}
+
+      <p>{{task.description}}</p>
+      <p>{{task.user.username}}</p>
+
+      <p>{{task.dateCompleted|date:'M j Y:i'}}</p>
+      {# |date'M d, Y:i' pipe para formatear como mostramos la fecha #}
+    </li>
+  </a>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,1 @@
+console.log("script desde archivo signup-script.js.");
